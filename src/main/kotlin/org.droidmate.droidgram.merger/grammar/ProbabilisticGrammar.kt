@@ -43,7 +43,7 @@ open class ProbabilisticGrammar(
     open fun asJsonStr(): String {
         val gSon = GsonBuilder().setPrettyPrinting().create()
         val entries = dump()
-        logger.debug(entries.toString())
+        //logger.debug(entries.toString())
         val output = StringBuilder()
 
         /*

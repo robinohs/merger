@@ -26,6 +26,7 @@ class GrammarMerger(
     fun runMerge() {
         // extract all grammars from input path
         val grammars: MutableList<Grammar> = extractGrammars()
+        val translationTables = extractTranslationTables()
 
         // write all grammars to console if debug is true
         if(config.debug)
@@ -147,6 +148,22 @@ class GrammarMerger(
         return null
     }
     */
+
+    private fun extractTranslationTables(): MutableList<TranslationTable> {
+        val translationTables: MutableList<TranslationTable> = mutableListOf()
+        File(config.inputPath.toUri()).walk().forEach {
+            if(it.endsWith("translationTable.txt")) {
+                try {
+                    val translationTable: TranslationTable = TranslationTable.fromFile(it)
+                    translationTables.add(translationTable)
+                    logger.info("Successfully read file: ${it.absolutePath}")
+                } catch (e: Exception) {
+                    logger.error("Skipping file: ${it.absolutePath}")
+                }
+            }
+        }
+        return translationTables
+    }
 
     private fun extractGrammars(): MutableList<Grammar> {
         val grammars: MutableList<Grammar> = mutableListOf()
