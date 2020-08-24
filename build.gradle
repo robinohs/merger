@@ -28,3 +28,25 @@ compileKotlin {
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
+
+apply plugin: "java"
+
+task sourcesJar(type: Jar, dependsOn: "classes") {
+    classifier = "sources"
+    from sourceSets.main.allJava
+    from sourceSets.main.allSource
+    from sourceSets.test.allSource
+}
+
+
+apply plugin: "application"
+
+application {
+    mainClassName = "org.droidmate.droidgram.merger.Main"
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "org.droidmate.droidgram.Main"
+    }
+}
